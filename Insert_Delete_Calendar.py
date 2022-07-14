@@ -13,18 +13,18 @@ service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
 
 
 request_body = {  # request body object, which is an dictionary
-    'summary': 'Dining Events'  # calendar title
+    'summary': 'Test Event'  # calendar title
 }
 
 """
 Create Calendar
 """
-# response = service.calendars().insert(
-#    body=request_body).execute()  # create calendar with insert
-# print(response)
+response = service.calendars().insert(
+    body=request_body).execute()  # create calendar with insert
+print(response)
 
 """
 Delete Calendar
 """
-service.calendars().delete(
-    calendarId='gp7bc5ha94odj50a3dk41osv5k@group.calendar.google.com').execute()
+# service.calendars().delete(
+#    calendarId='gp7bc5ha94odj50a3dk41osv5k@group.calendar.google.com').execute()

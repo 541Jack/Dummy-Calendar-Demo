@@ -12,51 +12,30 @@ SCOPES = ['https://www.googleapis.com/auth/calendar']
 
 service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
 
-print('Hi, this is event creater')
+# ID of the event
+calendar_id_dining = '3g56esarnq7pm727nq513dvqgc@group.calendar.google.com'
 
-# User enter their desired time
-# For demo purpose, this will be an 1 hour event
+"""
+Create Event
+"""
 
-inputCalId = input('please enter your calendar id: ')
-startYear = input('please enter the start year: ')
-startMonth = input('please enter the start month: ')
-startDay = input('please enter the start day: ')
-startHour = input('please enter the start hour: ')
-startMinute = input('please enter the start minute: ')
-
-# convert string to int
-startYear = int(startYear)
-startMonth = int(startMonth)
-startDay = int(startDay)
-startHour = int(startHour)
-startMinute = int(startMinute)
-
-#title and name
-eventTitle = input('please enter event title: ')
-eventDescription = input('please enter event description: ')
-
-# status
-eventTransparancy = input('Is event confirmed (y/n): ')
-
-if ((eventTransparancy == 'y') or (eventTransparency == 'Y')):
-    eventTransparancy = 'confirmed'
-else:
-    eventTransparancy = 'tentative'
+colors = service.colors().get().execute()  # get color
+# pprint(colors)
 
 event_request_body = {
     'start': {  # start time
         # year, month, day, hour, minute
-        'dateTime': convert_to_RFC_datetime(startYear, startMonth, startDay, startHour, startMinute),
+        'dateTime': convert_to_RFC_datetime(2022, 7, 12, 18, 30),
         'timeZone': 'America/New_York'
     },
     'end': {  # end time
-        'dateTime': convert_to_RFC_datetime(startYear, startMonth, startDay, (startHour + 1), startMinute),
+        'dateTime': convert_to_RFC_datetime(2022, 7, 12, 19, 00),
         'timeZone': 'America/New_York'
     },
-    'summary': eventTitle,  # event title
-    'description': eventDescription,
+    'summary': 'BBQ party',  # event title
+    'description': 'BBQ party baby!',
     'colorId': 5,  # 5th color on palette
-    'status': eventTransparancy,
+    'status': 'confirmed',
     'transparency': 'opaque',  # if the event blocks the time, default is opaque
     'location': 'West_Lafayette, IN',
     # 'attachments' {
@@ -80,9 +59,11 @@ sendUpdate = 'none'
 # supportAttachments
 
 response = service.events().insert(
-    calendarId=inputCalId,
+    calendarId=calendar_id_dining,
     maxAttendees=maxAttendee,
     sendNotifications=sendNotification,
     sendUpdates=sendUpdate,
     body=event_request_body
 ).execute()
+
+pprint(response)
